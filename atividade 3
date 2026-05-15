@@ -1,0 +1,38 @@
+#include <stdio.h>
+
+int hanoi(int discos, char origem, char destino, char auxiliar) {
+    
+    if (discos == 1) {
+        printf("Mova o disco 1 da haste %c para a haste %c\n", origem, destino);
+        return 1;
+    }
+    
+    int movimentos = 0;
+    
+    movimentos += hanoi(discos - 1, origem, auxiliar, destino);
+    
+    printf("Mova o disco %d da haste %c para a haste %c\n", discos, origem, destino);
+    movimentos += 1;
+    
+    movimentos += hanoi(discos - 1, auxiliar, destino, origem);
+    
+    return movimentos;
+}
+
+int main() {
+    int discos;
+    
+    printf("--- TORRES DE HANÓI ---\n");
+    printf("Digite a quantidade de discos: ");
+    if (scanf("%d", &discos) != 1 || discos <= 0) {
+        printf("Quantidade inválida.\n");
+        return 1;
+    }
+    
+    printf("\nPassos executados:\n");
+    int total_movimentos = hanoi(discos, 'A', 'C', 'B');
+    
+    printf("\nTotal de movimentos gerados: %d\n", total_movimentos);
+    
+    return 0;
+}
