@@ -1,0 +1,30 @@
+#include <stdio.h>
+
+unsigned long long fibonacci_ingenuo(int n, unsigned long long *chamadas) {
+    (*chamadas)++;
+    
+    if (n <= 1) {
+        return n;
+    }
+    
+    return fibonacci_ingenuo(n - 1, chamadas) + fibonacci_ingenuo(n - 2, chamadas);
+}
+
+int main() {
+    int n;
+    unsigned long long chamadas = 0;
+    
+    printf("--- FIBONACCI RECURSIVO INGÊNUO ---\n");
+    printf("Digite o valor de n (recomendado max 40): ");
+    if (scanf("%d", &n) != 1 || n < 0) {
+        printf("Valor inválido.\n");
+        return 1;
+    }
+
+    unsigned long long resultado = fibonacci_ingenuo(n, &chamadas);
+    
+    printf("\nResultado de Fibonacci(%d) = %llu\n", n, resultado);
+    printf("Quantidade total de chamadas recursivas: %llu\n", chamadas);
+    
+    return 0;
+}
