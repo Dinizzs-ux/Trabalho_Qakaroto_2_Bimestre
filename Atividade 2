@@ -1,1 +1,37 @@
+#include <stdio.h>
+#include <stdlib.h>
 
+unsigned long long fibonacci_ingenuo(int n, unsigned long long *chamadas) {
+    (*chamadas)++;
+    if (n <= 1) return n;
+    return fibonacci_ingenuo(n - 1, chamadas) + fibonacci_ingenuo(n - 2, chamadas);
+}
+
+unsigned long long fibonacci_memo_rec(int n, unsigned long long *cache, unsigned long long *chamadas) {
+    (*chamadas)++;
+    
+    if (n <= 1) return n;
+    if (cache[n] != (unsigned long long)-1) return cache[n];
+    
+    cache[n] = fibonacci_memo_rec(n - 1, cache, chamadas) + fibonacci_memo_rec(n - 2, cache, chamadas);
+    return cache[n];
+}
+
+unsigned long long fibonacci_memo(int n, unsigned long long *chamadas) {
+    if (n < 0) return 0;
+    
+    unsigned long long *cache = (unsigned long long *)malloc((n + 1) * sizeof(unsigned long long));
+    if (cache == NULL) {
+        printf("Erro ao alocar memória para o cache.\n");
+        return -1;
+    }
+    
+    for (int i = 0; i <= n; i++) {
+        cache[i] = (unsigned long long)-1;
+    }
+    
+    unsigned long long resultado = fibonacci_memo_rec(n, cache, chamadas);
+    
+    free(cache);
+    return resultado;
+}
